@@ -1,6 +1,6 @@
 {
   "name": "expo-play-games-services",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Expo module for Google Play Games Services (Android) — sign-in, achievements, saved games, and local persistence.",
   "main": "build/index.js",
   "types": "build/index.d.ts",

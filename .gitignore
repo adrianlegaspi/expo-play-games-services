@@ -3,3 +3,4 @@ build/
 plugin/build/
 *.tsbuildinfo
 .DS_Store
+.npmrc

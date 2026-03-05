@@ -1,0 +1,6 @@
+src/
+plugin/src/
+plugin/tsconfig.json
+tsconfig.json
+.gitignore
+*.tsbuildinfo

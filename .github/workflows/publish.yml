@@ -43,6 +43,8 @@ jobs:
 
       - name: Publish to npm
         if: steps.check_version.outputs.publish == 'true'
-        run: npm publish
+        run: |
+          echo "//registry.npmjs.org/:_authToken=\${NODE_AUTH_TOKEN}" > .npmrc
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

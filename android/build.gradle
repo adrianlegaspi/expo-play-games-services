@@ -35,6 +35,7 @@ dependencies {
   implementation project(':expo-modules-core')
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinVersion()}"
   implementation "com.google.android.gms:play-services-games-v2:20.1.2"
+  implementation "com.google.android.play:review:2.0.2"
 }
 
 def safeExtGet(prop, fallback) {

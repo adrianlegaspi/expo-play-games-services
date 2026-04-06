@@ -13,6 +13,7 @@ import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.PlayGamesSdk
 import com.google.android.gms.games.SnapshotsClient
 import com.google.android.gms.games.snapshot.SnapshotMetadataChange
+import com.google.android.play.core.review.ReviewManagerFactory
 
 class PlayGamesServicesModule : Module() {
 
@@ -344,6 +345,37 @@ class PlayGamesServicesModule : Module() {
       } catch (e: Exception) {
         Log.e(TAG, "loadSnapshot error: ${e.message}")
         promise.resolve(null)
+      }
+    }
+
+    // -----------------------------------------------------------------------
+    // In-App Review
+    // -----------------------------------------------------------------------
+
+    AsyncFunction("requestInAppReview") { promise: Promise ->
+      val activity = currentActivity ?: run {
+        Log.w(TAG, "requestInAppReview: no activity")
+        promise.resolve(false)
+        return@AsyncFunction
+      }
+
+      try {
+        val reviewManager = ReviewManagerFactory.create(activity)
+        reviewManager.requestReviewFlow().addOnCompleteListener { requestTask ->
+          if (!requestTask.isSuccessful) {
+            Log.e(TAG, "requestInAppReview: requestReviewFlow failed: ${requestTask.exception?.message}")
+            promise.resolve(false)
+            return@addOnCompleteListener
+          }
+          val reviewInfo = requestTask.result
+          reviewManager.launchReviewFlow(activity, reviewInfo).addOnCompleteListener { launchTask ->
+            Log.d(TAG, "requestInAppReview: launch complete, isSuccessful=${launchTask.isSuccessful}")
+            promise.resolve(launchTask.isSuccessful)
+          }
+        }
+      } catch (e: Exception) {
+        Log.e(TAG, "requestInAppReview error: ${e.message}")
+        promise.resolve(false)
       }
     }
   }

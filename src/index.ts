@@ -139,3 +139,18 @@ export function loadLocalString(key: string): string | null {
   if (!NativeModule) return null;
   return NativeModule.loadLocalString(key);
 }
+
+// ---------------------------------------------------------------------------
+// In-App Review
+// ---------------------------------------------------------------------------
+
+/**
+ * Request the Google Play In-App Review dialog.
+ * Google may silently suppress the dialog based on its own quota/frequency rules.
+ * Resolves to `true` when the flow completes (does NOT guarantee the dialog was shown).
+ * Returns `false` on non-Android platforms or if the request fails.
+ */
+export async function requestInAppReview(): Promise<boolean> {
+  if (!NativeModule) return false;
+  return NativeModule.requestInAppReview();
+}
